@@ -12,8 +12,7 @@ public class Student {
 //    FIELDS
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "STUDENT_SEQUENCE")
-    @SequenceGenerator(name = "STUDENT_SEQUENCE", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "STUDENT_ID")
     private Integer id;
 
