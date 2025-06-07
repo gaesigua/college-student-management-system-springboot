@@ -1,26 +1,29 @@
 package com.gasigwatin.college_student_management_system_springboot;
 
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
 public class StudentController {
 
     private final StudentService studentService;
-    private final StudentRepository studentRepository;
 
-    public StudentController(StudentService studentService,
-                             StudentRepository studentRepository){
+    public StudentController(StudentService studentService){
         this.studentService = studentService;
-        this.studentRepository = studentRepository;
     }
 
 //    a. Create new student (POST /api/students)
 
     @PostMapping("/api/students")
     public StudentResponseDto createStudent(
-            @RequestBody StudentDto studentDto){
+           @Valid @RequestBody StudentDto studentDto){
 
         return studentService.createStudent(studentDto);
     }
@@ -53,5 +56,44 @@ public class StudentController {
     public StudentResponseDto retrieveStudentByIdWithNoDetails(@PathVariable("student-id") Integer studentId){
         return studentService.retrieveStudentByIdWithNoDetails(studentId);
     }
+
+//    f. Update existing student (PUT /api/students/{student-id})
+
+    @PutMapping("api/students/{student-id}")
+    public ResponseEntity<Student> updateStudentById(@PathVariable("student-id") Integer studentId, @RequestBody StudentDto studentDto) {
+
+        return studentService.updateStudentById(studentId, studentDto);
+    }
+
+//    Let's handle the exception when the user forgets to enter their firstName or lastName (we made them @NotEmpty)
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception){
+
+        //        Here we are creating a Map that will hold two Strings for the Exception (one for the fieldName and one for the Message name)
+
+        var errors =new HashMap<String, String>();
+
+        exception.getBindingResult().getAllErrors().forEach(error -> {
+            var fieldName = ((FieldError)error).getField();
+            var errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+
+    }
+
+//    g. delete one student (DELETE /api/students/{student-id})
+
+    @DeleteMapping("/api/students/{student-id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void deleteStudent(@PathVariable("student-id") Integer studentId){
+
+        studentService.deleteStudent(studentId);
+
+    }
+
+
 
 }

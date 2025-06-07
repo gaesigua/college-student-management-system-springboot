@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "STUDENT_TABLE")
@@ -15,6 +16,9 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "STUDENT_ID")
     private Integer id;
+
+    @ManyToMany(mappedBy = "student")
+    private List<Course> course;
 
     @Column(name = "FIRST_NAME", length = 50)
     private String firstName;
@@ -40,13 +44,14 @@ public class Student {
 
 //    CONSTRUCTOR WITH ARGUMENTS
 
-    public Student(String firstName, String lastName, String email, String phoneNumber, LocalDate dateOfBirth, String country){
+    public Student(String firstName, String lastName, String email, String phoneNumber, LocalDate dateOfBirth, String country, List<Course> course){
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.dateOfBirth = dateOfBirth;
         this.country = country;
+        this.course = course;
     }
 
 //    GETTER AND SETTER FOR ID
@@ -110,6 +115,16 @@ public class Student {
     }
     public String getCountry(){
         return country;
+    }
+
+//    GETTER AND SETTER FOR COURSE
+
+    public void setCourse(List<Course> course){
+        this.course = course;
+    }
+
+    public List<Course> getCourse(){
+        return course;
     }
 
 }
