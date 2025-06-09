@@ -3,17 +3,17 @@ package com.gasigwatin.college_student_management_system_springboot;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "COURSE_TABLE")
 public class Course {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToMany
-    @JoinColumn(name = "student_id")
+    @ManyToMany(mappedBy = "course")
     private List<Student> student;
 
     @Column(name = "COURSE_NAME")
@@ -36,6 +36,26 @@ public class Course {
         this.code = code;
         this.description = description;
         this.student = student;
+    }
+
+//    GETTER AND SETTER FOR ID
+
+    public void setId(Integer id){
+        this.id = id;
+    }
+
+    public Integer getId(){
+        return id;
+    }
+
+//    GETTER AND SETTER FOR STUDENT
+
+    public void setStudent(List<Student> student){
+        this.student = student;
+    }
+
+    public List<Student> getStudent(){
+        return student;
     }
 
 //    GETTER AND SETTER FOR NAME
@@ -66,16 +86,6 @@ public class Course {
 
     public String getDescription(){
         return description;
-    }
-
-//    GETTER AND SETTER FOR STUDENT
-
-    public void setStudent(List<Student> student){
-        this.student = student;
-    }
-
-    public List<Student> getStudent(){
-        return student;
     }
 
 }

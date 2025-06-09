@@ -17,7 +17,8 @@ public class Student {
     @Column(name = "STUDENT_ID")
     private Integer id;
 
-    @ManyToMany(mappedBy = "student")
+    @ManyToMany
+    @JoinTable(name = "course-studied", joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "course_id"))
     private List<Course> course;
 
     @Column(name = "FIRST_NAME", length = 50)
@@ -61,6 +62,16 @@ public class Student {
     }
     public Integer getId(){
         return id;
+    }
+
+    //    GETTER AND SETTER FOR COURSE
+
+    public void setCourse(List<Course> course){
+        this.course = course;
+    }
+
+    public List<Course> getCourse(){
+        return course;
     }
 
 //    GETTER AND SETTER FOR FIRST NAME
@@ -115,16 +126,6 @@ public class Student {
     }
     public String getCountry(){
         return country;
-    }
-
-//    GETTER AND SETTER FOR COURSE
-
-    public void setCourse(List<Course> course){
-        this.course = course;
-    }
-
-    public List<Course> getCourse(){
-        return course;
     }
 
 }
