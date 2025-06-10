@@ -1,9 +1,17 @@
 package com.gasigwatin.college_student_management_system_springboot.course;
 
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,9 +66,42 @@ public class CourseService {
         return courseRepository.findById(courseId).map(courseMapper::toCourseResponseDto).orElse(null);
     }
 
-    // f.
+    // f. Business logic to Update existing course (PUT / api/courses/{id})
 
+    public CourseResponseDto updateCourse(Integer courseId, CourseDto courseDto){
 
+//        1. Let's first find the existing course
+
+        Course existingCourse = courseRepository.findById(courseId).orElse(new Course());
+
+//        2. Let's now update the fields of the existing entity with data from CourseDto
+
+        existingCourse.setName(courseDto.name());
+        existingCourse.setCode(courseDto.code());
+        existingCourse.setDescription(courseDto.description());
+
+//        3. Let's now save the updated entity
+
+         Course updatedCourse = courseRepository.save(existingCourse);
+
+//        4. Now Let's Map the updated entity back to a Response DTO
+
+         return courseMapper.toCourseResponseDto(updatedCourse);
+
+    }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleResourceNotFoundException(MethodArgumentNotValidException exception){
+
+       var errors = new HashMap<String, String>();
+
+       exception.getBindingResult().getAllErrors().forEach(error->{
+           var fieldName = ((FieldError)error).getField();
+           var errorMessage = error.getDefaultMessage();
+           errors.put(fieldName, errorMessage);
+       });
+
+       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 
     // g. Business logic to delete one course
 

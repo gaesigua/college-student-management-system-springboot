@@ -1,6 +1,7 @@
 package com.gasigwatin.college_student_management_system_springboot.course;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,10 +51,10 @@ public class CourseController {
     }
 
 //       f. PUT /api/courses/{id} (Update existing course)
-    
-
-
-
+    @PutMapping("/api/courses/{course-id}")
+    public CourseResponseDto updateCourse(@PathVariable("course-id") Integer courseId, CourseDto courseDto){
+          return courseService.updateCourse(courseId, courseDto);
+    }
 
 //       g. DELETE /api/courses/{id} (Delete course)
 
