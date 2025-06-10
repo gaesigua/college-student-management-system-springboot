@@ -31,11 +31,10 @@ public class Course {
 
 //    CONSTRUCTOR WITH ARGUMENTS
 
-    public Course(String name, char code, String description, List<Student> student){
+    public Course(String name, char code, String description){
         this.name = name;
         this.code = code;
         this.description = description;
-        this.student = student;
     }
 
 //    GETTER AND SETTER FOR ID

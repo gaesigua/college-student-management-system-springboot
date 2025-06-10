@@ -6,17 +6,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CourseController {
 
-    private final CourseRepository courseRepository;
+    private final CourseService courseService;
 
-    public CourseController(CourseRepository courseRepository) {
-        this.courseRepository = courseRepository;
+    public CourseController(CourseService courseService) {
+        this.courseService = courseService;
     }
 
-//       a. Create new course (POST /api/courses)
+//       a. Create new course (POST /api/courses) (In Postman, it will return )
 
     @PostMapping("/api/courses")
-    public Course createCourse(Course course){
-
-        return courseRepository.save(course);
+    public CourseResponseDto createCourse(CourseDto courseDto){
+        return courseService.createCourse(courseDto);
     }
+
 }

@@ -5,5 +5,5 @@ import java.util.List;
 public record CourseDto(String name,
                         char code,
                         String description,
-                        List<Student> student) {
+                        Integer studentId) {
 }
