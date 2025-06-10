@@ -1,7 +1,7 @@
-package com.gasigwatin.college_student_management_system_springboot;
+package com.gasigwatin.college_student_management_system_springboot.student;
 
+import com.gasigwatin.college_student_management_system_springboot.course.Course;
 import jakarta.persistence.*;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,7 +19,7 @@ public class Student {
 
     @ManyToMany
     @JoinTable(name = "course-studied", joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "course_id"))
-    private List<Course> course;
+    private List<Course> courses;
 
     @Column(name = "FIRST_NAME", length = 50)
     private String firstName;
@@ -45,14 +45,13 @@ public class Student {
 
 //    CONSTRUCTOR WITH ARGUMENTS
 
-    public Student(String firstName, String lastName, String email, String phoneNumber, LocalDate dateOfBirth, String country, List<Course> course){
+    public Student(String firstName, String lastName, String email, String phoneNumber, LocalDate dateOfBirth, String country){
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.dateOfBirth = dateOfBirth;
         this.country = country;
-        this.course = course;
     }
 
 //    GETTER AND SETTER FOR ID
@@ -66,12 +65,12 @@ public class Student {
 
     //    GETTER AND SETTER FOR COURSE
 
-    public void setCourse(List<Course> course){
-        this.course = course;
+    public void setCourse(List<Course> courses){
+        this.courses = courses;
     }
 
     public List<Course> getCourse(){
-        return course;
+        return courses;
     }
 
 //    GETTER AND SETTER FOR FIRST NAME

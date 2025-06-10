@@ -1,6 +1,5 @@
-package com.gasigwatin.college_student_management_system_springboot;
+package com.gasigwatin.college_student_management_system_springboot.student;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.time.LocalDate;

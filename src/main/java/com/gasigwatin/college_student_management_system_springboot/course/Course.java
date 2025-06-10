@@ -1,9 +1,9 @@
-package com.gasigwatin.college_student_management_system_springboot;
+package com.gasigwatin.college_student_management_system_springboot.course;
 
+import com.gasigwatin.college_student_management_system_springboot.student.Student;
 import jakarta.persistence.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "COURSE_TABLE")
@@ -13,7 +13,7 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToMany(mappedBy = "course")
+    @ManyToMany(mappedBy = "courses")
     private List<Student> student;
 
     @Column(name = "COURSE_NAME")

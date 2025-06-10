@@ -1,4 +1,4 @@
-package com.gasigwatin.college_student_management_system_springboot;
+package com.gasigwatin.college_student_management_system_springboot.course;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
